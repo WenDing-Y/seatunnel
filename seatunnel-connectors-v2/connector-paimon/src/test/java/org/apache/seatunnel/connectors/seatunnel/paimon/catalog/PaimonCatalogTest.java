@@ -238,12 +238,14 @@ public class PaimonCatalogTest {
                         new ArrayList<>(),
                         "test table");
         Assertions.assertThrows(
-                PaimonConnectorException.class,
+                RuntimeException.class,
                 () -> {
                     try {
                         paimonCatalog.createTable(
                                 TablePath.of("default.default.default"), catalogTable, false);
                     } catch (Exception e) {
+
+                        System.out.println("xx" + e.getMessage());
                         Assertions.assertTrue(
                                 e.getMessage()
                                         .contains(

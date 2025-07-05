@@ -29,7 +29,8 @@ public enum PaimonConnectorErrorCode implements SeaTunnelErrorCode {
     LOAD_CATALOG("PAIMON-06", "Load catalog failed"),
     GET_FILED_FAILED("PAIMON-07", "Get field failed"),
     UNSUPPORTED_PRIMARY_DATATYPE("PAIMON-08", "Paimon primary key datatype is unsupported"),
-    WRITE_PROPS_BUCKET_KEY_ERROR("PAIMON-09", "Cannot define 'bucket-key' in dynamic bucket mode");
+    WRITE_PROPS_BUCKET_KEY_ERROR(
+            "API-03", "Cannot define 'bucket-key' with bucket -1, please specify a bucket number.");
 
     private final String code;
     private final String description;
