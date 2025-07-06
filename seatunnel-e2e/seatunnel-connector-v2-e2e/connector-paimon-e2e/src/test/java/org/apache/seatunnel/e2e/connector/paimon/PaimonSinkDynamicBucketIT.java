@@ -66,6 +66,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -186,8 +187,12 @@ public class PaimonSinkDynamicBucketIT extends TestSuiteBase implements TestReso
         PaimonCatalogLoader paimonCatalogLoader = new PaimonCatalogLoader(paimonSinkConfig);
         Catalog catalog = paimonCatalogLoader.loadCatalog();
         Identifier identifier = Identifier.create("default", "st_test_5");
-        if (catalog.tableExists(identifier)) {
-            catalog.dropTable(identifier, true);
+
+        try {
+            if (Objects.nonNull(catalog.getTable(identifier))) {
+                catalog.dropTable(identifier, true);
+            }
+        } catch (org.apache.paimon.catalog.Catalog.TableNotExistException e) {
         }
         Container.ExecResult textWriteResult =
                 container.executeJob("/fake_to_dynamic_bucket_paimon_case5.conf");
