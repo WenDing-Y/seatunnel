@@ -52,6 +52,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -229,7 +230,14 @@ public class PaimonCatalog implements Catalog, PaimonTable {
         Schema.Builder builder = Schema.newBuilder();
         schema.fields()
                 .forEach(field -> builder.column(field.name(), field.type(), field.description()));
-        builder.options(schema.options());
+        Map<String, String> map = new HashMap<>();
+        schema.options()
+                .forEach(
+                        (x, y) -> {
+                            map.put(x, y);
+                        });
+        map.remove("path");
+        builder.options(map);
         builder.primaryKey(schema.primaryKeys());
         builder.partitionKeys(schema.partitionKeys());
         builder.comment(schema.comment());
