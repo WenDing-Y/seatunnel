@@ -214,6 +214,7 @@ public class PaimonCatalog implements Catalog, PaimonTable {
         try {
             Identifier identifier = toIdentifier(tablePath);
             FileStoreTable table = (FileStoreTable) catalog.getTable(identifier);
+            table.schema().options().remove("path");
             Schema schema = buildPaimonSchema(table.schema());
             dropTable(tablePath, ignoreIfNotExists);
             catalog.createTable(identifier, schema, ignoreIfNotExists);
